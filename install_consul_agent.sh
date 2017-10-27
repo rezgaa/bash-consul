@@ -5,6 +5,11 @@ NODE2=192.168.168.101
 NODE3=192.168.168.102
 BIND_ADDR=$(ip ro | grep eth1 | grep src | awk {'print $9'})
 
+
+yum -y install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-6-x86_64/pgdg-oraclelinux96-9.6-3.noarch.rpm
+yum -y install postgresql96 postgresql96-contrib
+yum -y install postgresql96-server
+
 adduser consul
 
 wget https://releases.hashicorp.com/consul/1.0.0/consul_1.0.0_linux_amd64.zip
@@ -51,9 +56,10 @@ chown -R consul:consul /var/consul
 chown -R consul:consul /etc/consul.d
 
 
-cat > /usr/local/bin/check_postgresql << STOP_IT
+cat > /usr/local/bin/check_postgresql << "STOP_IT"
 #!/usr/bin/env bash
-echo 0;
+su - postgres -c "psql -hlocalhost -c'SELECT 1'"
+echo $?;
 STOP_IT
 
 
