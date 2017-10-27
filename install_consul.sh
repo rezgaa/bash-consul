@@ -23,7 +23,6 @@ mkdir /var/consul
 cat > /etc/consul.d/bootstrap/config.json << STOP_IT
 {
     "bind_addr": "${BIND_ADDR}",
-    "bootstrap": true,
     "bootstrap_expect": 3,
     "ui": true,
     "server": true,
